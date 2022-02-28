@@ -1,7 +1,7 @@
-package com.leetcode;
+package com.leetcode.hard;
 
 
-/*class ListNode {
+class ListNode {
     int val;
     ListNode next;
 
@@ -16,7 +16,7 @@ package com.leetcode;
         this.val = val;
         this.next = next;
     }
-}*/
+}
 
 public class Number23 {
     public static ListNode mergeKLists(ListNode[] lists) {

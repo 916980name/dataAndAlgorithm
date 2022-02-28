@@ -1,12 +1,33 @@
-package com.leetcode;
+package com.leetcode.hard;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import static com.leetcode.Number21Test.generate;
-import static com.leetcode.Number21Test.convertToStr;
-import static com.leetcode.Number23.mergeKLists;
+import static com.leetcode.hard.Number23.mergeKLists;
 
 class Number23Test {
+    public static ListNode generate(int[] arr) {
+        ListNode head = null;
+        ListNode list = null;
+        for(int a : arr) {
+            if(list == null) {
+                list = new ListNode(a, null);
+            } else {
+                list.next = new ListNode(a, null);
+                list = list.next;
+            }
+            if(head == null) head = list;
+        }
+        return head;
+    }
+    public static String convertToStr(ListNode list) {
+        if(list == null) return "[]";
+        StringBuilder sb = new StringBuilder();
+        while(list != null) {
+            sb.append(list.val).append(",");
+            list = list.next;
+        }
+        return sb.toString();
+    }
     public ListNode[] construct(ListNode ...nodes) {
         return nodes;
     }

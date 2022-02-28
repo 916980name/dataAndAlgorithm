@@ -1,4 +1,4 @@
-package com.leetcode;
+package com.leetcode.medium;
 
 public class Number165 {
     public static int compareVersion(String version1, String version2) {

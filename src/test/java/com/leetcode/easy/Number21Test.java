@@ -1,9 +1,11 @@
-package com.leetcode;
+package com.leetcode.easy;
 
+import com.leetcode.easy.ListNode;
+import com.leetcode.easy.Number21;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class Number21Test {
+public class Number21Test {
     public static ListNode generate(int[] arr) {
         ListNode head = null;
         ListNode list = null;
