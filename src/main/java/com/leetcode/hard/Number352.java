@@ -22,13 +22,13 @@ public class Number352 {
             if(val < node[0]) {
                 intervalList.add(i, new int[]{val, val});
                 merge(i);
-                break;
+                return;
             } else if(val <= node[1]) {
                 return;
             } else if(i + 1 == intervalList.size()){
                 intervalList.addLast(new int[]{val, val});
                 merge(i);
-                break;
+                return;
             }
         }
     }
