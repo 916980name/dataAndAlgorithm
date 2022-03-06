@@ -1,17 +1,22 @@
 package com.leetcode.medium;
 
+import com.leetcode.excellentResolution.No740;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Number740 {
     Number740() {
 
     }
     public int deleteAndEarn(int[] nums) {
-        return new Solution1().deleteAndEarn(nums);
+//        return new Solution1().deleteAndEarn(nums);
+//        return new No740().deleteAndEarn(nums);
+        return new Solution2().deleteAndEarn(nums);
     }
 
     class Solution1 {
@@ -92,24 +97,62 @@ public class Number740 {
         return buf.toString();
     }
 
+    private String stringfyArrInteger(Integer[] nums) {
+        StringBuilder buf = new StringBuilder();
+        for (Integer num : nums) {
+            buf.append(num).append(",");
+        }
+        return buf.toString();
+    }
+
+    private String stringfyArr2(Integer[] keys, boolean[][] nums) {
+        StringBuilder buf = new StringBuilder();
+        buf.append("    ");
+        for (int i = 0; i < nums[0].length; i++) {
+            buf.append(i).append(i < 10 ? "  " : " ");
+        }
+        buf.append("\n");
+        int i = 0;
+        for (boolean[] num1 : nums) {
+            buf.append(keys[i]).append(":").append(keys[i] < 10 ? "  " : " ");
+            for(boolean num : num1) {
+                buf.append(num ? 1 : 0).append(", ");
+            }
+            buf.append("\n");
+            i++;
+        }
+        return buf.toString();
+    }
+
     class Solution2 {
         /**
-         *          | 0--2--------------earn max
-         *  --------|-------------------------->
-         *  nums[0] | T  T
-         *  nums[1] |
-         *  nums[2] |
-         *  nums[3] |
-         *  ...     |
-         *          V
+         *             | 0--1--2--------------earn max
+         *  -----------|-------------------------->
+         *  newnums[0] | T  T
+         *  newnums[1] |
+         *  newnums[2] |
+         *  newnums[3] |
+         *  ...        |
+         *             V
          */
         public int deleteAndEarn(int[] nums) {
             if(nums.length < 1) return 0;
+            // {nums[i] : nums[i] * k}
+            Map<Integer, Integer> getPointMap = new HashMap<>();
+            for(int i = 0; i < nums.length; i++) {
+                getPointMap.put(nums[i], nums[i] + getPointMap.getOrDefault(nums[i], 0));
+            }
             int max = Arrays.stream(nums).sum();
-            boolean[][] records = new boolean[nums.length][max + 1];
+            // sorted, important
+            Integer[] newNums = getPointMap.keySet()
+                    .stream().sorted()
+                    .collect(Collectors.toList())
+                    .toArray(new Integer[0]);
+
+            boolean[][] records = new boolean[newNums.length][max + 1];
             records[0][0] = true;
-            records[0][nums[0]] = true;
-            for(int i = 1; i < nums.length; i++) {
+            records[0][getPointMap.get(newNums[0])] = true;
+            for(int i = 1; i < newNums.length; i++) {
                 // When not pick number in this index
                 for(int j = 0; j < max; j++) {
                     if(records[i - 1][j]) {
@@ -117,21 +160,26 @@ public class Number740 {
                     }
                 }
                 // When pick number in this index
-                for(int j = 0; j < max - nums[i]; j++) {
-                    if(records[i - 1][j]) {
-                        records[i][j + nums[i]] = true;
+                for (int j = 0; j < max; j++) {
+                    int jump = newNums[i] - newNums[i - 1] > 1 ? 1 : 2;
+                    // line 1, can't calculate line -1, so use itself
+                    if(jump == 2 && i == 1) {
+                        records[1][getPointMap.get(newNums[i])] = true;
+                        break;
+                    }
+                    if (records[i - jump][j]) {
+                        records[i][j + getPointMap.get(newNums[i])] = true;
                     }
                 }
             }
+            System.out.println(stringfyArrInteger(newNums));
+            System.out.println(getPointMap);
+            System.out.println(stringfyArr2(newNums, records));
             // result
             for(int i = max; i >= 0; i--) {
-                if(records[nums.length - 1][i]) return i;
+                if(records[newNums.length - 1][i]) return i;
             }
             return 0;
-        }
-
-        private int sumProcess(int[] nums, int i) {
-            return -1;
         }
     }
 }
