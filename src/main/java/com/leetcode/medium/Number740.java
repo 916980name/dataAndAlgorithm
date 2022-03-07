@@ -16,7 +16,8 @@ public class Number740 {
     public int deleteAndEarn(int[] nums) {
 //        return new Solution1().deleteAndEarn(nums);
 //        return new No740().deleteAndEarn(nums);
-        return new Solution2().deleteAndEarn(nums);
+//        return new Solution2().deleteAndEarn(nums);
+        return new Solution3().deleteAndEarn(nums);
     }
 
     class Solution1 {
@@ -172,14 +173,50 @@ public class Number740 {
                     }
                 }
             }
-            System.out.println(stringfyArrInteger(newNums));
-            System.out.println(getPointMap);
-            System.out.println(stringfyArr2(newNums, records));
+//            System.out.println(stringfyArrInteger(newNums));
+//            System.out.println(getPointMap);
+//            System.out.println(stringfyArr2(newNums, records));
             // result
             for(int i = max; i >= 0; i--) {
                 if(records[newNums.length - 1][i]) return i;
             }
             return 0;
+        }
+    }
+
+    /**
+     * newNums[i-1]    1       4       6       7...10
+     * getPointMap.get nums[0] nums[1] nums[2] ... nums[newNums.length]
+     * records:     0  max1    max2    max3        result
+     */
+    class Solution3 {
+        public int deleteAndEarn(int[] nums) {
+            if(nums.length < 1) return 0;
+            // {nums[i] : nums[i] * k}
+            Map<Integer, Integer> getPointMap = new HashMap<>();
+            for(int i = 0; i < nums.length; i++) {
+                getPointMap.put(nums[i], nums[i] + getPointMap.getOrDefault(nums[i], 0));
+            }
+            // sorted, important
+            Integer[] newNums = getPointMap.keySet()
+                    .stream().sorted()
+                    .collect(Collectors.toList())
+                    .toArray(new Integer[0]);
+
+            int[] records = new int[newNums.length + 1];
+            records[0] = 0;
+            records[1] = getPointMap.get(newNums[0]);
+            for(int i = 2; i <= newNums.length; i++) {
+                if(newNums[i - 1] - newNums[i - 2] > 1) {
+                    records[i] = records[i - 1] + getPointMap.get(newNums[i - 1]);
+                } else {
+                    records[i] = Math.max(records[i - 1], records[i - 2] + getPointMap.get(newNums[i - 1]));
+                }
+            }
+//            System.out.println(stringfyArrInteger(newNums));
+//            System.out.println(getPointMap);
+//            System.out.println(stringfyArr(records));
+            return records[newNums.length];
         }
     }
 }
