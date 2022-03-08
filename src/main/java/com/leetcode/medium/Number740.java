@@ -20,6 +20,8 @@ public class Number740 {
         return new Solution3().deleteAndEarn(nums);
     }
 
+    @Deprecated
+    // because of not work
     class Solution1 {
         private Map<Integer, Integer> cache;
 
