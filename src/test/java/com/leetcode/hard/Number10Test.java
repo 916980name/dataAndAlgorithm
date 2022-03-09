@@ -67,4 +67,9 @@ public class Number10Test {
         System.out.println("time: " + (e - b));
         Assertions.assertFalse(res);
     }
+
+    @Test
+    void t8() {
+        Assertions.assertTrue(new Number10().isMatch("ab", ".*"));
+    }
 }
