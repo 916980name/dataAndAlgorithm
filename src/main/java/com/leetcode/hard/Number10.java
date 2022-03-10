@@ -8,7 +8,6 @@ import java.util.List;
 
 import static com.leetcode.hard.Number10.TOKEN.*;
 
-// TODO unaccomplished
 public class Number10 {
     public boolean isMatch(String s, String p) {
         return new Solution1().isMatch(s, p);
