@@ -14,4 +14,14 @@ public class StringfyUtils {
         return buf;
     }
 
+    public static StringBuilder stringfyIntArray(int[] arr) {
+        StringBuilder buf = new StringBuilder();
+        buf.append('[');
+        for (int num1 : arr) {
+            buf.append(num1).append(",");
+        }
+        buf.append(']');
+        return buf;
+    }
+
 }
