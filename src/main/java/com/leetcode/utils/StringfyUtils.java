@@ -14,6 +14,19 @@ public class StringfyUtils {
         return buf;
     }
 
+    public static StringBuilder stringfyInt2DArray(int[][] arr) {
+        StringBuilder buf = new StringBuilder();
+        int i = 0;
+        for (int[] num1 : arr) {
+            for(int num : num1) {
+                buf.append(num).append(" ");
+            }
+            buf.append("\n");
+            i++;
+        }
+        return buf;
+    }
+
     public static StringBuilder stringfyIntArray(int[] arr) {
         StringBuilder buf = new StringBuilder();
         buf.append('[');
